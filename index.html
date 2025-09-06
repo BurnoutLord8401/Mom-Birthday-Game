@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Happy Birthday Mom! 🎂🎈</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
     body {
       margin: 0;
       overflow: hidden;
       background: linear-gradient(to top, #fbc2eb, #a6c1ee);
       font-family: Arial, sans-serif;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
     }
     h1 {
       position: absolute;
@@ -25,27 +30,22 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      color: #fff;
+      color: black;
       font-size: 1.2em;
-      background: rgba(0,0,0,0.3);
+      background: rgba(255,255,255,0.5);
       padding: 5px 10px;
       border-radius: 10px;
       z-index: 2;
     }
     .balloon {
       position: absolute;
-      width: 70px;
-      height: 90px;
       border-radius: 50%;
-      background: red;
-      cursor: pointer;
       box-shadow: inset -5px -10px 0 rgba(0,0,0,0.2);
+      cursor: pointer;
       z-index: 3;
     }
     .string {
       position: absolute;
-      top: 90px;
-      left: 34px;
       width: 4px;
       height: 50px;
       background: #333;
@@ -68,7 +68,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       font-size: 2.5em;
-      color: white;
+      color: black;
       text-align: center;
       display: none;
       text-shadow: 2px 2px 10px #000;
@@ -95,32 +95,48 @@
     for(let i=0; i<30; i++){
       const bubble = document.createElement("div");
       bubble.classList.add("bubble");
-      let size = Math.random()*30+20; // 20px to 50px
+      let size = Math.random()*30+20;
       bubble.style.width = size+"px";
       bubble.style.height = size+"px";
       bubble.style.left = Math.random()*window.innerWidth+"px";
       bubble.style.background = randomColor();
-      bubble.style.animationDuration = (Math.random()*15 + 10) + "s"; // 10-25s
+      bubble.style.animationDuration = (Math.random()*15 + 10) + "s";
       document.body.appendChild(bubble);
     }
 
     function createBalloon() {
       const balloon = document.createElement("div");
       balloon.classList.add("balloon");
+
+      // Mobile-friendly sizing
+      let balloonWidth = 70;
+      let balloonHeight = 90;
+      if(window.innerWidth < 600) {
+        balloonWidth = 100;
+        balloonHeight = 120;
+      }
+      balloon.style.width = balloonWidth + "px";
+      balloon.style.height = balloonHeight + "px";
       balloon.style.background = randomColor();
-      balloon.style.left = Math.random() * (window.innerWidth - 70) + "px";
+      balloon.style.left = Math.random() * (window.innerWidth - balloonWidth) + "px";
       balloon.style.top = window.innerHeight + "px";
 
       const string = document.createElement("div");
       string.classList.add("string");
+      string.style.top = balloonHeight + "px";
+      string.style.left = (balloonWidth/2 - 2) + "px"; // center string
       balloon.appendChild(string);
 
       document.body.appendChild(balloon);
 
+      // Rise speed
+      let riseSpeed = 2;
+      if(window.innerWidth < 600) riseSpeed = 1.2;
+
       let rise = setInterval(() => {
         let top = parseFloat(balloon.style.top);
-        balloon.style.top = top - 2 + "px";
-        if (top < -120) {
+        balloon.style.top = top - riseSpeed + "px";
+        if(top < -balloonHeight - 50){
           balloon.remove();
           clearInterval(rise);
         }
@@ -132,32 +148,33 @@
         balloon.remove();
         clearInterval(rise);
 
-        if (score >= 41) { // updated for 41 balloons
+        if(score >= 41) {
           message.style.display = "block";
-          // 🎊 Confetti effect
-          for (let i = 0; i < 100; i++) {
+
+          // Confetti effect
+          for(let i=0;i<100;i++){
             let confetti = document.createElement("div");
             confetti.style.position = "fixed";
             confetti.style.width = "8px";
             confetti.style.height = "8px";
             confetti.style.background = randomColor();
-            confetti.style.left = Math.random() * window.innerWidth + "px";
+            confetti.style.left = Math.random()*window.innerWidth + "px";
             confetti.style.top = "-10px";
             confetti.style.opacity = "0.9";
             confetti.style.borderRadius = "50%";
             confetti.style.transform = `rotate(${Math.random()*360}deg)`;
             document.body.appendChild(confetti);
 
-            let dx = (Math.random() - 0.5) * 4; // horizontal sway: -2 to 2
-            let dy = 2 + Math.random() * 3; // vertical speed: 2 to 5
+            let dx = (Math.random()-0.5)*4; // horizontal sway
+            let dy = 2 + Math.random()*3;    // vertical speed
 
-            let fall = setInterval(() => {
+            let fall = setInterval(()=>{
               let top = parseFloat(confetti.style.top);
               let left = parseFloat(confetti.style.left);
               confetti.style.top = top + dy + "px";
               confetti.style.left = left + dx + "px";
               confetti.style.transform = `rotate(${top*2}deg)`;
-              if (top > window.innerHeight || left < -10 || left > window.innerWidth+10) {
+              if(top > window.innerHeight || left < -10 || left > window.innerWidth+10){
                 confetti.remove();
                 clearInterval(fall);
               }
