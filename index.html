@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Happy Birthday Mom! 🎂🎈</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <style>
 body {
   margin: 0;
@@ -18,14 +18,34 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+/* Header wrapper for title & score */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  width: 100%;
+  max-width: 95vw; /* prevents mobile zooming out */
+  margin-top: 5vh;
+  z-index: 2;
+}
+
+.header h1, .header #score {
+  display: block;
+  width: 100%;
+  word-break: break-word; /* wrap long text or emojis */
+  line-height: 1.2;
+  margin: 0 auto;
+}
+
 h1 {
   color: black;
   text-shadow: 2px 2px 5px #00000055;
   font-size: 2em;
-  text-align: center;
-  margin-top: 5vh;
-  z-index: 2;
 }
+
 #score {
   color: black;
   font-size: 1.2em;
@@ -33,8 +53,8 @@ h1 {
   padding: 5px 10px;
   border-radius: 10px;
   margin-top: 2vh;
-  z-index: 2;
 }
+
 .balloon {
   position: absolute;
   border-radius: 50%;
@@ -42,12 +62,14 @@ h1 {
   cursor: pointer;
   z-index: 3;
 }
+
 .string {
   position: absolute;
   width: 4px;
   height: 50px;
   background: #333;
 }
+
 .bubble {
   position: absolute;
   border-radius: 50%;
@@ -56,10 +78,12 @@ h1 {
   animation: floatUp linear infinite;
   z-index: 1;
 }
+
 @keyframes floatUp {
   0% { transform: translateY(100vh); }
   100% { transform: translateY(-10vh); }
 }
+
 #message {
   position: absolute;
   top: 50%;
@@ -73,23 +97,23 @@ h1 {
   z-index: 4;
 }
 
-/* Portrait-specific centering */
-@media (max-width: 768px) {
-  h1, #score {
-    display: inline-block;      /* Allows proper wrapping */
-    text-align: center;         /* Center wrapped lines */
-    width: 90%;                 /* Avoid edge overflow */
-    word-break: break-word;     /* Wrap long words or emojis */
-    line-height: 1.2;           /* Tighter spacing */
-    margin-left: auto;
-    margin-right: auto;
+/* Extra portrait adjustments for very narrow screens */
+@media (max-width: 600px) {
+  .header h1 {
+    font-size: 1.6em; /* smaller so it fits without overflow */
+  }
+  .header #score {
+    font-size: 1em;
   }
 }
 </style>
 </head>
 <body>
-<h1>🎉 Pop the Balloons, Mom! 🎉</h1>
-<div id="score">Balloons Popped: 0</div>
+<div class="header">
+  <h1>🎉 Pop the Balloons, Mom! 🎉</h1>
+  <div id="score">Balloons Popped: 0</div>
+</div>
+
 <div id="message">🎂 Happy Birthday, Mom! 🎂<br>We love you! ❤️</div>
 
 <script>
