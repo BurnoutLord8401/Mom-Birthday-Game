@@ -27,7 +27,7 @@ body {
   justify-content: flex-start;
   text-align: center;
   width: 100%;
-  max-width: 95vw; /* prevents mobile zooming out */
+  max-width: 95vw; /* prevents overflow and zooming */
   margin-top: 5vh;
   z-index: 2;
 }
@@ -35,9 +35,11 @@ body {
 .header h1, .header #score {
   display: block;
   width: 100%;
-  word-break: break-word; /* wrap long text or emojis */
+  max-width: 100%; /* prevent the box from going off screen */
+  word-break: break-word;
   line-height: 1.2;
   margin: 0 auto;
+  box-sizing: border-box; /* include padding in width */
 }
 
 h1 {
@@ -53,6 +55,7 @@ h1 {
   padding: 5px 10px;
   border-radius: 10px;
   margin-top: 2vh;
+  overflow-wrap: break-word;
 }
 
 .balloon {
@@ -118,6 +121,7 @@ h1 {
 
 <script>
 let score = 0;
+let gameOver = false; // track if game has ended
 const scoreDisplay = document.getElementById("score");
 const message = document.getElementById("message");
 
@@ -140,6 +144,8 @@ for(let i=0;i<30;i++){
 }
 
 function createBalloon(){
+  if(gameOver) return; // stop creating new balloons after game ends
+
   const balloon=document.createElement("div");
   balloon.classList.add("balloon");
   let balloonWidth=70, balloonHeight=90;
@@ -166,15 +172,17 @@ function createBalloon(){
     let top=parseFloat(balloon.style.top);
     balloon.style.top=top-riseSpeed+"px";
 
-    // Game over if balloon reaches the top
-    if(top < -balloonHeight) {
+    // Game over if balloon reaches the top, but only if game hasn't been won
+    if(!gameOver && top < -balloonHeight) {
       clearInterval(rise);
+      gameOver = true;
       alert("💥 Game Over! You missed a balloon!");
       location.reload();
     }
   },20);
 
   balloon.addEventListener("click",()=>{
+    if(gameOver) return;
     score++;
     scoreDisplay.textContent="Balloons Popped: "+score;
     balloon.remove();
@@ -182,6 +190,7 @@ function createBalloon(){
 
     // Win at 100 balloons
     if(score >= 100){
+      gameOver = true;
       message.style.display="block";
       for(let i=0;i<100;i++){
         let confetti=document.createElement("div");
@@ -210,7 +219,7 @@ function createBalloon(){
   });
 }
 
-// Faster spawn so there’s always plenty of balloons
+// Keep the fast spawning
 setInterval(createBalloon,500);
 </script>
 </body>
