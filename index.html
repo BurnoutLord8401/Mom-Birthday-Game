@@ -147,8 +147,10 @@ function createBalloon(){
   balloon.style.width=balloonWidth+"px";
   balloon.style.height=balloonHeight+"px";
   balloon.style.background=randomColor();
+
+  // NEW: random start position anywhere on screen
   balloon.style.left=Math.random()*(window.innerWidth-balloonWidth)+"px";
-  balloon.style.top=window.innerHeight-10+"px";
+  balloon.style.top=Math.random()*(window.innerHeight-balloonHeight)+"px";
 
   const string=document.createElement("div");
   string.classList.add("string");
@@ -158,7 +160,7 @@ function createBalloon(){
 
   document.body.appendChild(balloon);
 
-  let riseSpeed=15;
+  let riseSpeed=2;
   if(window.innerWidth<600) riseSpeed=1.2;
   let rise=setInterval(()=>{
     let top=parseFloat(balloon.style.top);
@@ -200,7 +202,9 @@ function createBalloon(){
     }
   });
 }
-setInterval(createBalloon,1000);
+
+// Create a balloon every 500ms (faster spawning for “a lot of balloons”)
+setInterval(createBalloon,500);
 </script>
 </body>
 </html>
