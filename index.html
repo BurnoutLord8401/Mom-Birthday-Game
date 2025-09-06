@@ -158,7 +158,7 @@ function createBalloon(){
 
   document.body.appendChild(balloon);
 
-  let riseSpeed=2;
+  let riseSpeed=5;
   if(window.innerWidth<600) riseSpeed=1.2;
   let rise=setInterval(()=>{
     let top=parseFloat(balloon.style.top);
