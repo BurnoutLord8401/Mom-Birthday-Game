@@ -1,209 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Happy Birthday Mom! 🎂🎈</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background: linear-gradient(to top, #fbc2eb, #a6c1ee);
-      font-family: Arial, sans-serif;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      touch-action: manipulation;
-    }
-
-    h1 {
-      position: absolute;
-      top: 5%;
-      left: 50%;
-      transform: translateX(-50%);
-      color: black;
-      text-shadow: 2px 2px 5px #00000055;
-      font-size: 2em;
-      text-align: center;
-      z-index: 2;
-    }
-
-    #score {
-      position: absolute;
-      top: 12%;
-      left: 50%;
-      transform: translateX(-50%);
-      color: black;
-      font-size: 1.2em;
-      background: rgba(255,255,255,0.5);
-      padding: 5px 10px;
-      border-radius: 10px;
-      z-index: 2;
-    }
-
-    @media (min-width: 601px) {
-      #score {
-        left: auto;
-        right: 20px;
-        top: 20px;
-        transform: none;
-        background: rgba(0,0,0,0.3);
-        color: white;
-      }
-    }
-
-    .balloon {
-      position: absolute;
-      border-radius: 50%;
-      box-shadow: inset -5px -10px 0 rgba(0,0,0,0.2);
-      cursor: pointer;
-      z-index: 3;
-    }
-
-    .string {
-      position: absolute;
-      width: 4px;
-      height: 50px;
-      background: #333;
-    }
-
-    .bubble {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.3;
-      pointer-events: none;
-      animation: floatUp linear infinite;
-      z-index: 1;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(100vh); }
-      100% { transform: translateY(-10vh); }
-    }
-
-    #message {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2.5em;
-      color: black;
-      text-align: center;
-      display: none;
-      text-shadow: 2px 2px 10px #000;
-      z-index: 4;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Happy Birthday Mom! 🎂🎈</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: linear-gradient(to top, #fbc2eb, #a6c1ee);
+  font-family: Arial, sans-serif;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+h1 {
+  color: black;
+  text-shadow: 2px 2px 5px #00000055;
+  font-size: 2em;
+  text-align: center;
+  margin-top: 5vh;
+  z-index: 2;
+}
+#score {
+  color: black;
+  font-size: 1.2em;
+  background: rgba(255,255,255,0.5);
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-top: 2vh;
+  z-index: 2;
+}
+.balloon {
+  position: absolute;
+  border-radius: 50%;
+  box-shadow: inset -5px -10px 0 rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 3;
+}
+.string {
+  position: absolute;
+  width: 4px;
+  height: 50px;
+  background: #333;
+}
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.3;
+  pointer-events: none;
+  animation: floatUp linear infinite;
+  z-index: 1;
+}
+@keyframes floatUp {
+  0% { transform: translateY(100vh); }
+  100% { transform: translateY(-10vh); }
+}
+#message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.5em;
+  color: black;
+  text-align: center;
+  display: none;
+  text-shadow: 2px 2px 10px #000;
+  z-index: 4;
+}
+</style>
 </head>
 <body>
-  <h1>🎉 Pop the Balloons, Mom! 🎉</h1>
-  <div id="score">Balloons Popped: 0</div>
-  <div id="message">🎂 Happy Birthday, Mom! 🎂<br>We love you! ❤️</div>
+<h1>🎉 Pop the Balloons, Mom! 🎉</h1>
+<div id="score">Balloons Popped: 0</div>
+<div id="message">🎂 Happy Birthday, Mom! 🎂<br>We love you! ❤️</div>
 
-  <script>
-    let score = 0;
-    const scoreDisplay = document.getElementById("score");
-    const message = document.getElementById("message");
+<script>
+let score = 0;
+const scoreDisplay = document.getElementById("score");
+const message = document.getElementById("message");
 
-    function randomColor() {
-      const colors = ["red","blue","green","purple","pink","orange","yellow"];
-      return colors[Math.floor(Math.random()*colors.length)];
-    }
+function randomColor(){
+  const colors = ["red","blue","green","purple","pink","orange","yellow"];
+  return colors[Math.floor(Math.random()*colors.length)];
+}
 
-    // Background bubbles
-    for(let i=0; i<30; i++){
-      const bubble = document.createElement("div");
-      bubble.classList.add("bubble");
-      let size = Math.random()*30+20;
-      bubble.style.width = size+"px";
-      bubble.style.height = size+"px";
-      bubble.style.left = Math.random()*window.innerWidth+"px";
-      bubble.style.background = randomColor();
-      bubble.style.animationDuration = (Math.random()*15 + 10) + "s";
-      document.body.appendChild(bubble);
-    }
+// Background bubbles
+for(let i=0;i<30;i++){
+  const bubble=document.createElement("div");
+  bubble.classList.add("bubble");
+  let size=Math.random()*30+20;
+  bubble.style.width=size+"px";
+  bubble.style.height=size+"px";
+  bubble.style.left=Math.random()*window.innerWidth+"px";
+  bubble.style.background=randomColor();
+  bubble.style.animationDuration=(Math.random()*15 + 10) + "s";
+  document.body.appendChild(bubble);
+}
 
-    function createBalloon() {
-      const balloon = document.createElement("div");
-      balloon.classList.add("balloon");
+function createBalloon(){
+  const balloon=document.createElement("div");
+  balloon.classList.add("balloon");
+  let balloonWidth=70, balloonHeight=90;
+  if(window.innerWidth<600){ balloonWidth=100; balloonHeight=120; }
+  balloon.style.width=balloonWidth+"px";
+  balloon.style.height=balloonHeight+"px";
+  balloon.style.background=randomColor();
+  balloon.style.left=Math.random()*(window.innerWidth-balloonWidth)+"px";
+  balloon.style.top=window.innerHeight-10+"px";
 
-      // Mobile-friendly sizing
-      let balloonWidth = 70;
-      let balloonHeight = 90;
-      if(window.innerWidth < 600) {
-        balloonWidth = 100;
-        balloonHeight = 120;
+  const string=document.createElement("div");
+  string.classList.add("string");
+  string.style.top=balloonHeight+"px";
+  string.style.left=(balloonWidth/2-2)+"px";
+  balloon.appendChild(string);
+
+  document.body.appendChild(balloon);
+
+  let riseSpeed=2;
+  if(window.innerWidth<600) riseSpeed=1.2;
+  let rise=setInterval(()=>{
+    let top=parseFloat(balloon.style.top);
+    balloon.style.top=top-riseSpeed+"px";
+    if(top<-balloonHeight-50){ balloon.remove(); clearInterval(rise); }
+  },20);
+
+  balloon.addEventListener("click",()=>{
+    score++;
+    scoreDisplay.textContent="Balloons Popped: "+score;
+    balloon.remove();
+    clearInterval(rise);
+
+    if(score>=41){
+      message.style.display="block";
+      for(let i=0;i<100;i++){
+        let confetti=document.createElement("div");
+        confetti.style.position="fixed";
+        confetti.style.width="8px";
+        confetti.style.height="8px";
+        confetti.style.background=randomColor();
+        confetti.style.left=Math.random()*window.innerWidth+"px";
+        confetti.style.top="-10px";
+        confetti.style.opacity="0.9";
+        confetti.style.borderRadius="50%";
+        confetti.style.transform=`rotate(${Math.random()*360}deg)`;
+        document.body.appendChild(confetti);
+
+        let dx=(Math.random()-0.5)*4, dy=2+Math.random()*3;
+        let fall=setInterval(()=>{
+          let top=parseFloat(confetti.style.top);
+          let left=parseFloat(confetti.style.left);
+          confetti.style.top=top+dy+"px";
+          confetti.style.left=left+dx+"px";
+          confetti.style.transform=`rotate(${top*2}deg)`;
+          if(top>window.innerHeight || left<-10 || left>window.innerWidth+10){ confetti.remove(); clearInterval(fall); }
+        },20);
       }
-      balloon.style.width = balloonWidth + "px";
-      balloon.style.height = balloonHeight + "px";
-      balloon.style.background = randomColor();
-      balloon.style.left = Math.random() * (window.innerWidth - balloonWidth) + "px";
-      balloon.style.top = window.innerHeight - 10 + "px"; // start inside viewport
-
-      const string = document.createElement("div");
-      string.classList.add("string");
-      string.style.top = balloonHeight + "px";
-      string.style.left = (balloonWidth/2 - 2) + "px";
-      balloon.appendChild(string);
-
-      document.body.appendChild(balloon);
-
-      // Rise speed
-      let riseSpeed = 2;
-      if(window.innerWidth < 600) riseSpeed = 1.2;
-
-      let rise = setInterval(() => {
-        let top = parseFloat(balloon.style.top);
-        balloon.style.top = top - riseSpeed + "px";
-        if(top < -balloonHeight - 50){
-          balloon.remove();
-          clearInterval(rise);
-        }
-      }, 20);
-
-      balloon.addEventListener("click", () => {
-        score++;
-        scoreDisplay.textContent = "Balloons Popped: " + score;
-        balloon.remove();
-        clearInterval(rise);
-
-        if(score >= 41) {
-          message.style.display = "block";
-
-          // Confetti
-          for(let i=0;i<100;i++){
-            let confetti = document.createElement("div");
-            confetti.style.position = "fixed";
-            confetti.style.width = "8px";
-            confetti.style.height = "8px";
-            confetti.style.background = randomColor();
-            confetti.style.left = Math.random()*window.innerWidth + "px";
-            confetti.style.top = "-10px";
-            confetti.style.opacity = "0.9";
-            confetti.style.borderRadius = "50%";
-            confetti.style.transform = `rotate(${Math.random()*360}deg)`;
-            document.body.appendChild(confetti);
-
-            let dx = (Math.random()-0.5)*4;
-            let dy = 2 + Math.random()*3;
-
-            let fall = setInterval(()=>{
-              let top = parseFloat(confetti.style.top);
-              let left = parseFloat(confetti.style.left);
-              confetti.style.top = top + dy + "px";
-              confetti.style.left = left + dx + "px";
-              confetti.style.transform = `rotate(${top*2}deg)`;
-              if(top > window.innerHeight || left < -10 || left > window.innerWidth+10){
-                confetti.remove();
-                clearInterval(fall);
-              }
-            }, 20);
-          }
-        }
-      });
     }
-
-    setInterval(createBalloon, 1000);
-  </script>
+  });
+}
+setInterval(createBalloon,1000);
+</script>
 </body>
 </html>
