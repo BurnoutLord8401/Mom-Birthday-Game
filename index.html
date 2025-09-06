@@ -72,6 +72,19 @@ h1 {
   text-shadow: 2px 2px 10px #000;
   z-index: 4;
 }
+
+/* Portrait-specific centering */
+@media (max-width: 768px) {
+  h1, #score {
+    display: inline-block;      /* Allows proper wrapping */
+    text-align: center;         /* Center wrapped lines */
+    width: 90%;                 /* Avoid edge overflow */
+    word-break: break-word;     /* Wrap long words or emojis */
+    line-height: 1.2;           /* Tighter spacing */
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 </style>
 </head>
 <body>
