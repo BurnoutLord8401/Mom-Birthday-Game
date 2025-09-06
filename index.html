@@ -148,7 +148,7 @@ function createBalloon(){
   balloon.style.height=balloonHeight+"px";
   balloon.style.background=randomColor();
 
-  // NEW: random start position anywhere on screen
+  // Random position anywhere on screen
   balloon.style.left=Math.random()*(window.innerWidth-balloonWidth)+"px";
   balloon.style.top=Math.random()*(window.innerHeight-balloonHeight)+"px";
 
@@ -165,7 +165,13 @@ function createBalloon(){
   let rise=setInterval(()=>{
     let top=parseFloat(balloon.style.top);
     balloon.style.top=top-riseSpeed+"px";
-    if(top<-balloonHeight-50){ balloon.remove(); clearInterval(rise); }
+
+    // Game over if balloon reaches the top
+    if(top < -balloonHeight) {
+      clearInterval(rise);
+      alert("💥 Game Over! You missed a balloon!");
+      location.reload();
+    }
   },20);
 
   balloon.addEventListener("click",()=>{
@@ -174,7 +180,8 @@ function createBalloon(){
     balloon.remove();
     clearInterval(rise);
 
-    if(score>=41){
+    // Win at 100 balloons
+    if(score >= 100){
       message.style.display="block";
       for(let i=0;i<100;i++){
         let confetti=document.createElement("div");
@@ -194,7 +201,7 @@ function createBalloon(){
           let top=parseFloat(confetti.style.top);
           let left=parseFloat(confetti.style.left);
           confetti.style.top=top+dy+"px";
-          confetti.style.left=left+dx+"px";
+          confetti.style.left=left+dx;
           confetti.style.transform=`rotate(${top*2}deg)`;
           if(top>window.innerHeight || left<-10 || left>window.innerWidth+10){ confetti.remove(); clearInterval(fall); }
         },20);
@@ -203,7 +210,7 @@ function createBalloon(){
   });
 }
 
-// Create a balloon every 500ms (faster spawning for “a lot of balloons”)
+// Faster spawn so there’s always plenty of balloons
 setInterval(createBalloon,500);
 </script>
 </body>
