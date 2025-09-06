@@ -18,7 +18,7 @@
 
     h1 {
       position: absolute;
-      top: 20px;
+      top: 5%;
       left: 50%;
       transform: translateX(-50%);
       color: black;
@@ -29,19 +29,18 @@
     }
 
     #score {
+      position: absolute;
+      top: 12%;
+      left: 50%;
+      transform: translateX(-50%);
       color: black;
       font-size: 1.2em;
       background: rgba(255,255,255,0.5);
       padding: 5px 10px;
       border-radius: 10px;
       z-index: 2;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 70px;
     }
 
-    /* Desktop override */
     @media (min-width: 601px) {
       #score {
         left: auto;
@@ -139,7 +138,7 @@
       balloon.style.height = balloonHeight + "px";
       balloon.style.background = randomColor();
       balloon.style.left = Math.random() * (window.innerWidth - balloonWidth) + "px";
-      balloon.style.top = window.innerHeight + "px";
+      balloon.style.top = window.innerHeight - 10 + "px"; // start inside viewport
 
       const string = document.createElement("div");
       string.classList.add("string");
